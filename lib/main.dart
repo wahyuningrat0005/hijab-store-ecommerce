@@ -2,8 +2,8 @@ import 'package:e_commerce/data/datasources/auth_local_datasource.dart';
 import 'package:e_commerce/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:e_commerce/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:e_commerce/presentation/auth/login_page.dart';
-import 'package:e_commerce/presentation/auth/splash.dart';
 import 'package:e_commerce/presentation/dashboard/dashboard_page.dart';
+import 'package:e_commerce/presentation/home/bloc/products_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,7 +22,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => RegisterBloc(),
         ),
-        BlocProvider(create: (context) => LoginBloc(),),
+        BlocProvider(
+          create: (context) => LoginBloc(),
+        ),
+        BlocProvider(create: (context) => ProductsBloc()..add(const ProductsEvent.getAll()),),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

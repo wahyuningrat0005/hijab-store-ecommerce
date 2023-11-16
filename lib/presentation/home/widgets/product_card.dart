@@ -1,11 +1,14 @@
 import 'package:e_commerce/common/components/space_height.dart';
 import 'package:e_commerce/common/constants/colors.dart';
+import 'package:e_commerce/common/constants/variables.dart';
+import 'package:e_commerce/extensions/int_text.dart';
 import 'package:flutter/material.dart';
 
-import 'product_model.dart';
+import '../../../data/models/responses/product_responses_model.dart';
+
 
 class ProductCard extends StatelessWidget {
-  final ProductModel data;
+  final Product data;
   const ProductCard({
     super.key,
     required this.data,
@@ -30,15 +33,16 @@ class ProductCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              data.images.first,
+            Image.network(
+              '${Variables.baseUrl}${data.attributes.images.data.first.attributes.url}',
               width: 170.0,
               height: 112.0,
               fit: BoxFit.cover,
             ),
+            const SpaceHeight(14.0),
             Flexible(
               child: Text(
-                data.name,
+                data.attributes.name,
                 style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
@@ -46,9 +50,9 @@ class ProductCard extends StatelessWidget {
               ),
             ),
             const SpaceHeight(4.0),
-            const Text(
-              "12.000",
-              style: TextStyle(
+            Text(
+              int.parse(data.attributes.price).currencyFormatRp,
+              style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
               ),

@@ -10,8 +10,8 @@ class AuthLocalDatasource {
   }
 
   Future<void> removeAuthData(AuthResponseModel model) async {
-    final preff = await SharedPreferences.getInstance();
-    await preff.remove('auth');
+    final pref = await SharedPreferences.getInstance();
+    await pref.remove('auth');
   }
 
   Future<String> getToken() async {

@@ -1,13 +1,15 @@
 import 'package:dartz/dartz.dart';
-import 'package:e_commerce/data/models/responses/product_responses_model.dart';
+import 'package:e_commerce/common/constants/variables.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/responses/product_responses_model.dart';
+
 class ProductRemoteDataSource {
-  Future<Either<String, ProductResponseModel>> getAllProduct() async {
-    final response = await http.get(Uri.parse('http://localhost:1337/api/local/product'));
+  Future<Either<String, ProductsResponseModel>> getAllProduct() async {
+    final response = await http.get(Uri.parse('${Variables.baseUrl}/api/products?populate=*'));
 
     if (response.statusCode == 200) {
-      return Right(ProductResponseModel.fromJson(response.body));
+      return Right(ProductsResponseModel.fromJson(response.body));
     } else {
       return const Left("Server Error");
     }

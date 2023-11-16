@@ -1,11 +1,13 @@
 import 'package:e_commerce/common/components/search_input.dart';
 import 'package:e_commerce/common/components/space_height.dart';
 import 'package:e_commerce/common/constants/colors.dart';
+import 'package:e_commerce/presentation/home/bloc/products_bloc.dart';
 import 'package:e_commerce/presentation/home/widgets/product_model.dart';
 import 'package:e_commerce/presentation/home/widgets/category_button.dart';
 import 'package:e_commerce/presentation/home/widgets/image_slider.dart';
 import 'package:e_commerce/presentation/home/widgets/product_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../common/constants/images.dart';
 
@@ -178,18 +180,29 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         const SpaceHeight(8.0),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10.0,
-            mainAxisSpacing: 55.0,
-          ),
-          itemCount: products.length,
-          itemBuilder: (context, index) => ProductCard(
-            data: products[index],
-          ),
+        BlocBuilder<ProductsBloc, ProductsState>(
+          builder: (context, state) {
+            return state.maybeWhen(
+              orElse: () {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }, loaded: (model) {
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 55.0,
+                ),
+                itemCount: model.data.length,
+                itemBuilder: (context, index) => ProductCard(
+                  data:model.data[index],
+                ),
+              );
+            });
+          },
         ),
       ],
     ));

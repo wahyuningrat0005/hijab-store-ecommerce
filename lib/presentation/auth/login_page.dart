@@ -1,6 +1,7 @@
 import 'package:e_commerce/common/components/custome_text_field.dart';
 import 'package:e_commerce/common/components/space_height.dart';
 import 'package:e_commerce/common/constants/colors.dart';
+import 'package:e_commerce/data/datasources/auth_local_datasource.dart';
 import 'package:e_commerce/data/models/requests/login_request_model.dart';
 import 'package:e_commerce/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:e_commerce/presentation/auth/register_page.dart';
@@ -55,6 +56,16 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
+          const Center(
+            child: Text(
+              "Wahyu Ningrat",
+              style: TextStyle(
+                fontSize: 22.0,
+                fontWeight: FontWeight.w700,
+                color: ColorName.dark,
+              ),
+            ),
+          ),
           const SpaceHeight(8.0),
           const Center(
             child: Text(
@@ -83,6 +94,7 @@ class _LoginPageState extends State<LoginPage> {
               state.maybeWhen(
                 orElse: () {},
                 success: (data) {
+                  AuthLocalDatasource().saveAuthData(data);
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
